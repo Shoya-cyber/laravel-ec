@@ -17,3 +17,9 @@ RUN apt-get update && apt-get install -y \
 
 # DocumentRoot 変更
 RUN sed -i 's!/var/www/html!/var/www/app/public!g' /etc/apache2/sites-available/000-default.conf
+
+RUN apt-get update &&\
+  # JPEG 対応
+  apt-get install -y zlib1g-dev libpng-dev libjpeg62-turbo-dev &&\
+  docker-php-ext-configure gd --with-jpeg &&\
+  docker-php-ext-install -j$(nproc) gd
